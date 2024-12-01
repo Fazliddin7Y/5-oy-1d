@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countries</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style type="text/tailwindcss"></style>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="p-[23px] shadow-lg flex items-center justify-between">
+    <h1 class="text-[25px] font-bold">Where in the world?</h1>
+    <div class="flex items-center gap-5">
+      <button class="w-[40px] h-[40px] rounded-full border-[2px] border-black flex items-center justify-center">
+        <strong>1</strong>
+        <img src="/icons/heart.png" alt="Like icon" width="22" height="22">
+      </button>
+      <button class="w-[40px] h-[40px] rounded-full border-[2px] border-black flex items-center justify-center">
+        <strong>1</strong>
+        <img src="/icons/bookmark.png" alt="Save icon" width="22" height="22">
+      </button>
+      <button class="flex items-center gap-2">
+        <img src="/icons/moon.png" alt="Mode icon" width="22" height="22">
+        <span>Dark Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="p-[23px]">
+    <div class="flex items-center justify-between">
+      <input class="search-input py-[18px] outline-none w-[480px] border-[2px] border-slate-300 rounded-md pl-[74px]" type="text"
+      placeholder="Search for a country">
+      <select class="country-select py-[18px] outline-none w-[200px] border-[2px] border-slate-300 rounded-md pl-5">
+        <option value="all">All</option>
+      </select>
+    </div>
+    <ul class="list flex justify-between flex-wrap gap-10 mt-10"></ul>
+  </main>
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            clifford: '#da373d',
+          }
+        }
+      }
+    }
+  </script>
+  <script src="./countries.js"></script>
+  <script src="./main.js"></script>
+
+</body>
+</html>
