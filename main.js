@@ -2,11 +2,46 @@ let elCountryList = document.querySelector(".list");
 let elSelect = document.querySelector(".country-select");
 let elSearchInput = document.querySelector(".search-input");
 
+function toggleLike(id) {
+    const country = countrys.find(item => item.id === id);
+    if (country) {
+        country.isLiked = !country.isLiked;
+        updateLikedBasketCounts();
+        render(countrys, elCountryList, "countries");
+    }
+}
+
+function toggleBasket(id) {
+    const country = countrys.find(item => item.id === id);
+    if (country) {
+        country.isBasket = !country.isBasket;
+        updateLikedBasketCounts();
+        render(countrys, elCountryList, "countries");
+    }
+}
+
+function updateLikedBasketCounts() {
+    const likedCount = countrys.filter(item => item.isLiked).length;
+    const basketCount = countrys.filter(item => item.isBasket).length;
+
+    document.querySelectorAll("button > strong")[0].textContent = likedCount;
+    document.querySelectorAll("button > strong")[1].textContent = basketCount;
+}
+
+function showLikedCountries() {
+    const likedCountries = countrys.filter(item => item.isLiked);
+    render(likedCountries, elCountryList, "countries");
+}
+
+function showBasketCountries() {
+    const basketCountries = countrys.filter(item => item.isBasket);
+    render(basketCountries, elCountryList, "countries");
+}
+
 function render(arr, list, renderType = "countries") {
     list.innerHTML = "";
     arr.forEach((item) => {
         if (renderType === "countries") {
-
             let elCountryItem = document.createElement("li");
             elCountryItem.className = "w-[264px] rounded-md overflow-hidden bg-slate-100";
             elCountryItem.innerHTML = `
@@ -17,20 +52,20 @@ function render(arr, list, renderType = "countries") {
                     <p class="mb-2"><strong>Capital:</strong> ${item.capital}</p>
                 </div>
                 <div class="flex items-center justify-between p-2">
-                    <button class="w-[45px] h-[45px] border-[2px] border-black rounded-full flex items-center justify-center">
+                    <button 
+                        onclick="toggleLike(${item.id})" 
+                        class="w-[45px] h-[45px] border-[2px] ${item.isLiked ? 'bg-red-500' : 'bg-white'} border-black rounded-full flex items-center justify-center">
                         <img src="./icons/heart.png" width="22" height="22" alt="Like icon" />
                     </button>
-                    <button class="w-[45px] h-[45px] border-[2px] border-black rounded-full flex items-center justify-center">
+                    <button 
+                        onclick="toggleBasket(${item.id})" 
+                        class="w-[45px] h-[45px] border-[2px] ${item.isBasket ? 'bg-blue-500' : 'bg-white'} border-black rounded-full flex items-center justify-center">
                         <img src="./icons/bookmark.png" width="22" height="22" alt="Save icon" />
-                    </button>
-                    <button class="w-[45px] h-[45px] border-[2px] border-black rounded-full flex items-center justify-center">
-                        <img src="./icons/settings.png" width="22" height="22" alt="More icon" />
                     </button>
                 </div>
             `;
             list.append(elCountryItem);
         } else if (renderType === "options") {
-
             let elOption = document.createElement("option");
             elOption.textContent = item.capital || "Unknown";
             elOption.value = item.capital ? item.capital.toLowerCase() : "unknown";
@@ -38,9 +73,6 @@ function render(arr, list, renderType = "countries") {
         }
     });
 }
-
-render(countrys, elCountryList, "countries"); 
-render(countrys, elSelect, "options"); 
 
 elSelect.addEventListener("change", function (evt) {
     if (evt.target.value === "all") {
@@ -60,3 +92,11 @@ elSearchInput.addEventListener("input", function (e) {
     );
     render(searchResults, elCountryList, "countries");
 });
+
+document.querySelectorAll("button")[0].addEventListener("click", showLikedCountries);
+document.querySelectorAll("button")[1].addEventListener("click", showBasketCountries);
+
+
+render(countrys, elCountryList, "countries");
+render(countrys, elSelect, "options");
+updateLikedBasketCounts();
